@@ -444,7 +444,7 @@ section{scroll-margin-top:60px}
   html{scroll-behavior:auto}
 }
 .ss-wrap{position:relative;width:100%;height:100%;overflow:hidden}
-.ss-slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+.ss-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease-in-out;z-index:0}
 .ss-slide.ss-active{opacity:1}
 html.shot-mode .ss-slide{transition:none!important}
 </style>
@@ -770,13 +770,19 @@ html.shot-mode .ss-slide{transition:none!important}
 <script>
 (function(){
   var slides=document.querySelectorAll('.ss-slide');
-  var idx=0;
+  var idx=0,dur=1400;
   if(!slides.length)return;
   setInterval(function(){
-    slides[idx].classList.remove('ss-active');
+    var prev=idx;
     idx=(idx+1)%slides.length;
+    slides[idx].style.zIndex=1;
     slides[idx].classList.add('ss-active');
-  },2000);
+    setTimeout(function(){
+      slides[prev].classList.remove('ss-active');
+      slides[idx].style.zIndex='';
+      slides[prev].style.zIndex='';
+    },dur);
+  },3000);
 })();
 </script>
 </body>
