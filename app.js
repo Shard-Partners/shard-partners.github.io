@@ -66,17 +66,54 @@
 })();
 
 (function(){
-  var rows=[].slice.call(document.querySelectorAll('.ach-row'));
-  var media=[].slice.call(document.querySelectorAll('.ach-media'));
-  if(!rows.length) return;
+  var SHOT = new URLSearchParams(location.search).get('shot') === '1';
+  var rows  = [].slice.call(document.querySelectorAll('.ach-row'));
+  var media = [].slice.call(document.querySelectorAll('.ach-media'));
+  var chap  = document.querySelector('.ach');
+  var stage = document.querySelector('.ach-stage');
+  if (!rows.length) return;
+  var N = rows.length, cur = -1;
+
   function set(i){
-    rows.forEach(function(r,k){r.classList.toggle('is-active',k===i);});
-    media.forEach(function(m,k){m.classList.toggle('is-active',k===i);});
+    if (i === cur) return;            // skip redundant work → no transition restarts
+    cur = i;
+    for (var k = 0; k < N; k++){
+      rows[k].classList.toggle('is-active', k === i);
+      if (media[k]) media[k].classList.toggle('is-active', k === i);
+    }
   }
+
+  /* explicit controls: click (pointer) + focus (keyboard a11y).
+     mouseenter is intentionally omitted — it fights scroll-spy when the cursor
+     rests over the list during a wheel scroll. */
   rows.forEach(function(r,i){
-    r.addEventListener('mouseenter',function(){set(i);});
-    r.addEventListener('focus',function(){set(i);});
-    r.addEventListener('click',function(e){e.preventDefault();set(i);});
+    r.addEventListener('click', function(e){ e.preventDefault(); set(i); });
+    r.addEventListener('focus', function(){ set(i); });
   });
-  try{var q=new URLSearchParams(location.search);var a=parseInt(q.get('act'),10);if(!isNaN(a)&&a>=0&&a<rows.length)set(a);}catch(e){}
+
+  /* shot mode → deterministic state for screenshots; honor ?act=, no scroll-spy */
+  if (SHOT){
+    var a = parseInt(new URLSearchParams(location.search).get('act'), 10);
+    set(!isNaN(a) && a >= 0 && a < N ? a : 0);
+    return;
+  }
+
+  /* scroll-spy: as you scroll, softly advance the active award from the media
+     box's sticky-pin progress. This sweeps all awards evenly while the box stays
+     pinned & centered, instead of skipping the first/last few. */
+  var ticking = false;
+  function spy(){
+    ticking = false;
+    if (window.innerWidth <= 920 || !chap || !stage) return;   // sticky layout only
+    var r = chap.getBoundingClientRect();
+    var pinStart = (r.top + window.scrollY) - 96;              // matches .ach-stage{top:96px}
+    var pinEnd   = (r.bottom + window.scrollY) - 96 - stage.offsetHeight;
+    var p = pinEnd > pinStart ? (window.scrollY - pinStart) / (pinEnd - pinStart) : 0;
+    if (p < 0) p = 0; else if (p > 1) p = 1;
+    set(Math.round(p * (N - 1)));
+  }
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(spy); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  spy();
 })();
