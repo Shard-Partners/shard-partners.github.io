@@ -30,7 +30,7 @@ body{
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
-  overflow-x:hidden;
+  overflow-x:clip;
 }
 ::selection{background:rgba(46,99,255,.35);color:#fff}
 img{display:block}
@@ -141,7 +141,7 @@ ul{list-style:none}
 @keyframes cue{0%{top:-100%}55%{top:100%}100%{top:100%}}
 
 /* ---------- chapters ---------- */
-.chapter{position:relative;overflow:hidden}
+.chapter{position:relative;overflow:clip}
 .ghost{
   position:absolute;z-index:0;
   font-size:20vw;font-weight:200;line-height:.8;
