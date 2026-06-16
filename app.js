@@ -83,10 +83,12 @@
     }
   }
 
-  /* explicit controls: click (pointer) + focus (keyboard a11y).
-     mouseenter is intentionally omitted — it fights scroll-spy when the cursor
-     rests over the list during a wheel scroll. */
+  /* hover controls row while cursor is inside the list; scroll-spy resumes on mouseleave */
+  var hovering = false;
+  var list = document.querySelector('.ach-list');
+  if (list) list.addEventListener('mouseleave', function(){ hovering = false; spy(); });
   rows.forEach(function(r,i){
+    r.addEventListener('mouseenter', function(){ hovering = true; set(i); });
     r.addEventListener('click', function(e){ e.preventDefault(); set(i); });
     r.addEventListener('focus', function(){ set(i); });
   });
@@ -104,6 +106,7 @@
   var ticking = false;
   function spy(){
     ticking = false;
+    if (hovering) return;
     if (window.innerWidth <= 920 || !chap || !stage) return;   // sticky layout only
     var r = chap.getBoundingClientRect();
     var pinStart = (r.top + window.scrollY) - 96;              // matches .ach-stage{top:96px}
