@@ -304,11 +304,11 @@ html.shot-mode .scroll-cue .line::after{top:30%}
 #team .ghost{top:100px;left:-3vw}
 .leads{
   position:relative;z-index:1;margin-top:104px;
-  display:grid;grid-template-columns:1fr 1fr;gap:64px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:48px;
 }
 .gps{
   position:relative;z-index:1;margin-top:96px;
-  display:grid;grid-template-columns:repeat(5,1fr);gap:28px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:28px;
 }
 .person .still{aspect-ratio:16/10}
 .gps .person .still{aspect-ratio:3/4}
