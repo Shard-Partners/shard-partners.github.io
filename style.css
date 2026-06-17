@@ -463,7 +463,7 @@ html.shot-mode .ss-slide{transition:none!important}
   display:grid;grid-template-columns:repeat(4,1fr);
   gap:48px 28px;margin-top:80px;
 }
-.port-card{display:flex;flex-direction:column;gap:14px}
+.port-card{display:flex;flex-direction:column;gap:14px;text-decoration:none;color:inherit;cursor:pointer}
 .port-logo{
   width:100%;aspect-ratio:1;border-radius:14px;overflow:hidden;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
