@@ -21,6 +21,7 @@
 
 <div id="tab-team" class="tab-panel">
   <div id="slot-team"></div>
+  <div id="slot-video"></div>
   <div id="slot-recognition"></div>
 </div>
 
@@ -35,7 +36,7 @@
 <div id="slot-footer"></div>
 <script>
 (function(){
-  var sections=["nav","hero","story","practice","recognition","team","contact","footer","portfolio"];
+  var sections=["nav","hero","story","practice","recognition","team","video","contact","footer","portfolio"];
   Promise.all(sections.map(function(s){
     return fetch("sections/"+s+".html",{cache:"no-cache"})
       .then(function(r){return r.text();})
