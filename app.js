@@ -51,7 +51,7 @@
 (function(){
   var slides=[].slice.call(document.querySelectorAll('.ss-slide'));
   if(!slides.length)return;
-  var N=slides.length,idx=0,FADE=2000,HOLD=5000;
+  var N=slides.length,idx=0,FADE=2000,HOLD=3000;
   function advance(){
     var prev=idx;
     idx=(idx+1)%N;
