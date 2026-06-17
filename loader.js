@@ -1,7 +1,7 @@
 (function(){
   var sections=["nav", "hero", "story", "practice", "recognition", "team", "contact", "footer", "portfolio"];
   Promise.all(sections.map(function(s){
-    return fetch("sections/"+s+".html")
+    return fetch("sections/"+s+".html",{cache:"no-cache"})
       .then(function(r){return r.text();})
       .then(function(html){
         var el=document.getElementById("slot-"+s);
