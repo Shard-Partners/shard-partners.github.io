@@ -567,8 +567,10 @@ html.shot-mode .tab-panel{display:block}
 .bio-modal-photo{aspect-ratio:3/4;overflow:hidden}
 .bio-modal-photo img{
   width:100%;height:100%;object-fit:cover;object-position:50% 22%;
-  filter:grayscale(1) brightness(.78) contrast(1.05);
+  filter:brightness(.92) contrast(1.05);
 }
+.bio-modal-creds{list-style:none;padding:12px 0 0;margin:0;display:flex;flex-direction:column;gap:5px}
+.bio-modal-creds li{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.02em;line-height:1.5}
 .bio-modal-name{font-size:22px;font-weight:200;color:var(--ink);letter-spacing:.005em}
 .bio-modal-name .han{
   font-family:var(--kr);font-weight:300;color:var(--dim);
