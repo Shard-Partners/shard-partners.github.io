@@ -173,19 +173,17 @@
     });
 
     if (scroll) {
-      // 1. Instant jump to top — shows hero
+      // Instant jump to top so user sees the hero first
       document.documentElement.style.scrollBehavior = 'auto';
       window.scrollTo(0, 0);
-      // 2. Read ch-head position now (at scrollY=0 it equals document offset)
       var chHead = panel.querySelector('.ch-head');
       if (chHead) {
-        var navH = (document.getElementById('nav') || {offsetHeight: 80}).offsetHeight;
-        var target = Math.max(0, chHead.getBoundingClientRect().top - navH - 24);
-        // 3. Smooth scroll to section title in next task
+        // scrollIntoView with explicit behavior:'smooth' is not cancelled by
+        // window.scrollTo or scroll-behavior CSS changes
         setTimeout(function() {
           document.documentElement.style.scrollBehavior = '';
-          window.scrollTo({top: target, behavior: 'smooth'});
-        }, 32);
+          chHead.scrollIntoView({behavior: 'smooth', block: 'start'});
+        }, 50);
       } else {
         document.documentElement.style.scrollBehavior = '';
       }
