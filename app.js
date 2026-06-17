@@ -49,20 +49,34 @@
 (function(){var q=new URLSearchParams(location.search);if(q.get('shot')!=='1')return;document.documentElement.classList.add('shot-mode');var s=document.createElement('style');s.textContent='*,*::before,*::after{animation-duration:0s!important;animation-delay:0s!important;transition:none!important}html{scroll-behavior:auto!important}'+(q.get('mw')==='0'?'':'body{min-width:1440px}');document.head.appendChild(s);window.addEventListener('load',function(){requestAnimationFrame(function(){window.scrollTo(parseInt(q.get('x')||'0',10),parseInt(q.get('y')||'0',10))})});})();
 
 (function(){
-  var slides=document.querySelectorAll('.ss-slide');
-  var idx=0,dur=1400;
+  var slides=[].slice.call(document.querySelectorAll('.ss-slide'));
   if(!slides.length)return;
-  setInterval(function(){
+  var N=slides.length,idx=0,FADE=2000,HOLD=5000;
+  function advance(){
     var prev=idx;
-    idx=(idx+1)%slides.length;
-    slides[idx].style.zIndex=1;
-    slides[idx].classList.add('ss-active');
-    setTimeout(function(){
+    idx=(idx+1)%N;
+    /* freeze outgoing transform so Ken Burns doesn't snap on deactivate */
+    slides[prev].style.transform=window.getComputedStyle(slides[prev]).transform;
+    slides[prev].style.animation='none';
+    /* reset incoming animation so Ken Burns always starts from scale(1) */
+    slides[idx].style.animation='none';
+    void slides[idx].offsetWidth;  /* flush to clear animation state */
+    slides[idx].style.animation='';
+    slides[idx].style.transform='';
+    slides[idx].style.zIndex='1';
+    /* true simultaneous crossfade: both transitions fire in the same frame */
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      slides[idx].classList.add('ss-active');
       slides[prev].classList.remove('ss-active');
-      slides[idx].style.zIndex='';
-      slides[prev].style.zIndex='';
-    },dur);
-  },3000);
+      setTimeout(function(){
+        slides[prev].style.transform='';
+        slides[prev].style.animation='';
+        slides[prev].style.zIndex='';
+        slides[idx].style.zIndex='';
+      },FADE);
+    });});
+  }
+  setInterval(advance,HOLD);
 })();
 
 (function(){
