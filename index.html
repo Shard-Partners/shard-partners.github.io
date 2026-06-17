@@ -33,6 +33,19 @@
 </div>
 
 <div id="slot-footer"></div>
-<script src="loader.js"></script>
+<script>
+(function(){
+  var sections=["nav","hero","story","practice","recognition","team","contact","footer","portfolio"];
+  Promise.all(sections.map(function(s){
+    return fetch("sections/"+s+".html",{cache:"no-cache"})
+      .then(function(r){return r.text();})
+      .then(function(html){var el=document.getElementById("slot-"+s);if(el)el.outerHTML=html;});
+  })).then(function(){
+    var sc=document.createElement("script");
+    sc.src="app.js?v="+Date.now();
+    document.body.appendChild(sc);
+  });
+})();
+</script>
 </body>
 </html>
