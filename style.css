@@ -313,19 +313,19 @@ html.shot-mode .scroll-cue .line::after{top:30%}
 .person:hover .still::after{opacity:.25}
 .p-meta{margin-top:24px}
 .p-name{
-  font-size:24px;font-weight:200;letter-spacing:.005em;color:var(--ink);line-height:1.35;
+  font-size:26px;font-weight:200;letter-spacing:.005em;color:var(--ink);line-height:1.35;
 }
-.p-name .han{font-family:var(--kr);font-weight:300;color:var(--dim);margin-left:10px;font-size:21px}
+.p-name .han{font-family:var(--kr);font-weight:300;color:var(--dim);margin-left:10px;font-size:23px}
 .gps .p-name{font-size:18px}
 .gps .p-name .han{font-size:15.5px;margin-left:8px}
 .p-role{
   margin-top:9px;
-  font-size:9.5px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--blue);
+  font-size:10.5px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--blue);
 }
 .p-cred{
   margin-top:14px;
   font-family:var(--kr);word-break:keep-all;overflow-wrap:normal;
-  font-size:12px;font-weight:300;line-height:1.85;color:var(--faint);
+  font-size:13.5px;font-weight:300;line-height:1.85;color:var(--faint);
 }
 .gps .p-meta{margin-top:18px}
 .gps .p-role{margin-top:7px;letter-spacing:.26em;font-size:9px}
@@ -571,9 +571,9 @@ html.shot-mode .tab-panel{display:block}
 }
 .bio-modal-creds{padding:16px 0 0;display:flex;flex-direction:column;gap:14px}
 .bio-cred-section{display:flex;flex-direction:column;gap:5px}
-.bio-cred-label{font-size:8.5px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);margin-bottom:2px}
+.bio-cred-label{font-size:9.5px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);margin-bottom:2px}
 .bio-cred-items{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
-.bio-cred-items li{font-size:11.5px;font-weight:300;color:var(--dim);letter-spacing:.01em;line-height:1.45}
+.bio-cred-items li{font-size:13px;font-weight:300;color:var(--dim);letter-spacing:.01em;line-height:1.45}
 .bio-modal-name{font-size:22px;font-weight:200;color:var(--ink);letter-spacing:.005em}
 .bio-modal-name .han{
   font-family:var(--kr);font-weight:300;color:var(--dim);
