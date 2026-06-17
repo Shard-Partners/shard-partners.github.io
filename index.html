@@ -12,11 +12,32 @@
 <body>
 <div id="slot-nav"></div>
 <div id="slot-hero"></div>
-<div id="slot-story"></div>
-<div id="slot-practice"></div>
-<div id="slot-recognition"></div>
-<div id="slot-team"></div>
-<div id="slot-contact"></div>
+
+<nav id="tab-bar">
+  <button class="tab-btn active" data-tab="about">About</button>
+  <button class="tab-btn" data-tab="team">Team</button>
+  <button class="tab-btn" data-tab="portfolio">Portfolio</button>
+  <button class="tab-btn" data-tab="contact">Contact</button>
+</nav>
+
+<div id="tab-about" class="tab-panel active">
+  <div id="slot-story"></div>
+  <div id="slot-practice"></div>
+</div>
+
+<div id="tab-team" class="tab-panel">
+  <div id="slot-team"></div>
+  <div id="slot-recognition"></div>
+</div>
+
+<div id="tab-portfolio" class="tab-panel">
+  <div id="slot-portfolio"></div>
+</div>
+
+<div id="tab-contact" class="tab-panel">
+  <div id="slot-contact"></div>
+</div>
+
 <div id="slot-footer"></div>
 <script src="loader.js"></script>
 </body>
