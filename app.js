@@ -161,29 +161,35 @@
       p.classList.toggle('active', p.id === 'tab-' + tab);
     });
     if (push) history.pushState({tab: tab}, '', urlFor(tab));
+
+    var panel = document.getElementById('tab-' + tab);
+    if (!panel) return;
+
+    // Reveal animations in next paint
     requestAnimationFrame(function() {
-      var panel = document.getElementById('tab-' + tab);
-      if (!panel) return;
       [].slice.call(panel.querySelectorAll('.reveal:not(.in)')).forEach(function(el) {
         el.classList.add('in');
       });
-      if (scroll) {
-        // Instant jump to top so user sees the hero first
-        document.documentElement.style.scrollBehavior = 'auto';
-        window.scrollTo(0, 0);
-        var chHead = panel.querySelector('.ch-head');
-        if (chHead) {
-          setTimeout(function() {
-            document.documentElement.style.scrollBehavior = '';
-            var navH = (document.getElementById('nav') || {offsetHeight: 80}).offsetHeight;
-            var top = chHead.getBoundingClientRect().top - navH - 24;
-            window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
-          }, 60);
-        } else {
-          document.documentElement.style.scrollBehavior = '';
-        }
-      }
     });
+
+    if (scroll) {
+      // 1. Instant jump to top — shows hero
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, 0);
+      // 2. Read ch-head position now (at scrollY=0 it equals document offset)
+      var chHead = panel.querySelector('.ch-head');
+      if (chHead) {
+        var navH = (document.getElementById('nav') || {offsetHeight: 80}).offsetHeight;
+        var target = Math.max(0, chHead.getBoundingClientRect().top - navH - 24);
+        // 3. Smooth scroll to section title in next task
+        setTimeout(function() {
+          document.documentElement.style.scrollBehavior = '';
+          window.scrollTo({top: target, behavior: 'smooth'});
+        }, 32);
+      } else {
+        document.documentElement.style.scrollBehavior = '';
+      }
+    }
   }
 
   btns.forEach(function(btn) {
