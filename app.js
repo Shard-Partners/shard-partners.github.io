@@ -120,3 +120,36 @@
   window.addEventListener('resize', onScroll);
   spy();
 })();
+
+(function(){
+  var btns   = [].slice.call(document.querySelectorAll('.tab-btn'));
+  var panels = [].slice.call(document.querySelectorAll('.tab-panel'));
+  if (!btns.length) return;
+
+  function activate(target) {
+    btns.forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-tab') === target);
+    });
+    panels.forEach(function(p){
+      p.classList.toggle('active', p.id === 'tab-' + target);
+    });
+    // Force-reveal any .reveal elements IO missed while panel was display:none
+    requestAnimationFrame(function(){
+      var panel = document.getElementById('tab-' + target);
+      if (!panel) return;
+      [].slice.call(panel.querySelectorAll('.reveal:not(.in)')).forEach(function(el){
+        el.classList.add('in');
+      });
+    });
+    window.scrollTo(0, 0);
+  }
+
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      activate(btn.getAttribute('data-tab'));
+    });
+  });
+
+  // Ensure initial ABOUT tab reveals are triggered
+  activate('about');
+})();
