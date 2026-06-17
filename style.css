@@ -594,3 +594,12 @@ html.shot-mode .tab-panel{display:block}
   .bio-modal-layout{grid-template-columns:1fr;gap:24px}
   .bio-modal-photo{aspect-ratio:16/9;max-height:220px}
 }
+
+/* ── BIO MODAL RESEARCH ── */
+.bio-modal-research{margin-top:28px;padding-top:22px;border-top:1px solid var(--hair)}
+.bio-modal-research-label{font-size:9px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+.bio-modal-papers{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.bio-modal-papers li{display:flex;align-items:baseline;gap:8px}
+.bio-modal-papers li::before{content:'↗';color:var(--blue);font-size:10px;flex-shrink:0;line-height:1}
+.bio-modal-papers a{font-size:12.5px;font-weight:300;color:var(--dim);text-decoration:none;line-height:1.55;transition:color .2s}
+.bio-modal-papers a:hover{color:var(--ink)}
