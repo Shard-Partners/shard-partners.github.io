@@ -122,34 +122,57 @@
 })();
 
 (function(){
+  var TABS   = ['about','team','portfolio','contact'];
   var btns   = [].slice.call(document.querySelectorAll('.tab-btn'));
   var panels = [].slice.call(document.querySelectorAll('.tab-panel'));
   if (!btns.length) return;
 
-  function activate(target) {
-    btns.forEach(function(b){
-      b.classList.toggle('active', b.getAttribute('data-tab') === target);
+  function urlFor(tab) {
+    return tab === 'about' ? '/#About' : '/' + tab;
+  }
+
+  function tabFromURL() {
+    var hash = location.hash.replace(/^#/, '').toLowerCase();
+    if (TABS.indexOf(hash) >= 0) return hash;
+    var path = location.pathname.replace(/^\//, '').toLowerCase();
+    if (TABS.indexOf(path) >= 0) return path;
+    return 'about';
+  }
+
+  function activate(tab, push) {
+    btns.forEach(function(b) {
+      b.classList.toggle('active', b.getAttribute('data-tab') === tab);
     });
-    panels.forEach(function(p){
-      p.classList.toggle('active', p.id === 'tab-' + target);
+    panels.forEach(function(p) {
+      p.classList.toggle('active', p.id === 'tab-' + tab);
     });
-    // Force-reveal any .reveal elements IO missed while panel was display:none
-    requestAnimationFrame(function(){
-      var panel = document.getElementById('tab-' + target);
+    requestAnimationFrame(function() {
+      var panel = document.getElementById('tab-' + tab);
       if (!panel) return;
-      [].slice.call(panel.querySelectorAll('.reveal:not(.in)')).forEach(function(el){
+      [].slice.call(panel.querySelectorAll('.reveal:not(.in)')).forEach(function(el) {
         el.classList.add('in');
       });
     });
+    if (push) history.pushState({tab: tab}, '', urlFor(tab));
     window.scrollTo(0, 0);
   }
 
-  btns.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      activate(btn.getAttribute('data-tab'));
+  btns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      activate(btn.getAttribute('data-tab'), true);
     });
   });
 
-  // Ensure initial ABOUT tab reveals are triggered
-  activate('about');
+  window.addEventListener('popstate', function(e) {
+    activate((e.state && e.state.tab) || tabFromURL(), false);
+  });
+
+  // Initial load: 404 redirect → sessionStorage, or parse current URL
+  var stored = sessionStorage.getItem('__tab');
+  if (stored && TABS.indexOf(stored) >= 0) {
+    sessionStorage.removeItem('__tab');
+    activate(stored, true);   // restore the clean URL (e.g. /team)
+  } else {
+    activate(tabFromURL(), false);
+  }
 })();
