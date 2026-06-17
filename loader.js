@@ -1,5 +1,5 @@
 (function(){
-  var sections=["nav", "hero", "story", "practice", "recognition", "team", "contact", "footer"];
+  var sections=["nav", "hero", "story", "practice", "recognition", "team", "contact", "footer", "portfolio"];
   Promise.all(sections.map(function(s){
     return fetch("sections/"+s+".html")
       .then(function(r){return r.text();})
