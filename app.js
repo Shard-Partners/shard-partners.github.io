@@ -168,7 +168,20 @@
         el.classList.add('in');
       });
       if (scroll) {
-        window.scrollTo({top: Math.max(0, panel.offsetTop - 64), behavior: 'smooth'});
+        // Instant jump to top so user sees the hero first
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(0, 0);
+        var chHead = panel.querySelector('.ch-head');
+        if (chHead) {
+          setTimeout(function() {
+            document.documentElement.style.scrollBehavior = '';
+            var navH = (document.getElementById('nav') || {offsetHeight: 80}).offsetHeight;
+            var top = chHead.getBoundingClientRect().top - navH - 24;
+            window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
+          }, 60);
+        } else {
+          document.documentElement.style.scrollBehavior = '';
+        }
       }
     });
   }
