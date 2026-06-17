@@ -569,8 +569,11 @@ html.shot-mode .tab-panel{display:block}
   width:100%;height:100%;object-fit:cover;object-position:50% 22%;
   filter:brightness(.92) contrast(1.05);
 }
-.bio-modal-creds{list-style:none;padding:12px 0 0;margin:0;display:flex;flex-direction:column;gap:5px}
-.bio-modal-creds li{font-size:11px;font-weight:300;color:var(--faint);letter-spacing:.02em;line-height:1.5}
+.bio-modal-creds{padding:16px 0 0;display:flex;flex-direction:column;gap:14px}
+.bio-cred-section{display:flex;flex-direction:column;gap:5px}
+.bio-cred-label{font-size:8.5px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);margin-bottom:2px}
+.bio-cred-items{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
+.bio-cred-items li{font-size:11.5px;font-weight:300;color:var(--dim);letter-spacing:.01em;line-height:1.45}
 .bio-modal-name{font-size:22px;font-weight:200;color:var(--ink);letter-spacing:.005em}
 .bio-modal-name .han{
   font-family:var(--kr);font-weight:300;color:var(--dim);
