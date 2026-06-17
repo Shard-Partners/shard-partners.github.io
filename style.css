@@ -454,3 +454,73 @@ section{scroll-margin-top:60px}
 .ss-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease-in-out;z-index:0}
 .ss-slide.ss-active{opacity:1}
 html.shot-mode .ss-slide{transition:none!important}
+
+/* ── TAB NAVIGATION ── */
+#tab-bar{
+  position:sticky;
+  top:64px;
+  z-index:40;
+  display:flex;
+  justify-content:center;
+  gap:0;
+  background:rgba(5,6,8,.96);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--hair-soft);
+}
+
+.tab-btn{
+  font-family:var(--latin);
+  font-size:9.5px;
+  font-weight:400;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--faint);
+  background:none;
+  border:none;
+  padding:22px 44px;
+  cursor:pointer;
+  position:relative;
+  transition:color .3s ease,letter-spacing .3s ease;
+}
+
+.tab-btn::after{
+  content:'';
+  position:absolute;
+  bottom:-1px;
+  left:50%;right:50%;
+  height:1px;
+  background:var(--blue);
+  transition:left .35s cubic-bezier(.22,.6,.2,1),right .35s cubic-bezier(.22,.6,.2,1);
+}
+
+.tab-btn.active{
+  color:var(--ink);
+  letter-spacing:.38em;
+}
+
+.tab-btn.active::after{
+  left:16%;
+  right:16%;
+}
+
+.tab-btn:hover:not(.active){
+  color:var(--dim);
+}
+
+.tab-panel{
+  display:none;
+  min-height:60vh;
+}
+
+.tab-panel.active{
+  display:block;
+}
+
+html.shot-mode .tab-panel{display:block}
+
+@media(max-width:640px){
+  #tab-bar{top:52px}
+  .tab-btn{padding:18px 20px;font-size:8.5px;letter-spacing:.26em}
+  .tab-btn.active{letter-spacing:.30em}
+}
