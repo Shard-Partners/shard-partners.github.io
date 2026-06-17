@@ -608,3 +608,18 @@ html.shot-mode .tab-panel{display:block}
 .bio-modal-papers li::before{content:'↗';color:var(--blue);font-size:10px;flex-shrink:0;line-height:1}
 .bio-modal-papers a{font-size:12.5px;font-weight:300;color:var(--dim);text-decoration:none;line-height:1.55;transition:color .2s}
 .bio-modal-papers a:hover{color:var(--ink)}
+
+/* ── VIDEO EMBED ── */
+.video-embed{
+  margin-top:72px;
+  position:relative;width:100%;
+  aspect-ratio:16/9;
+  background:#000;
+  border:1px solid var(--hair);
+}
+.video-embed iframe{
+  position:absolute;inset:0;width:100%;height:100%;border:none;
+}
+@media(max-width:640px){
+  .video-embed{margin-top:48px}
+}
