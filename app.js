@@ -139,27 +139,29 @@
     return 'about';
   }
 
-  function activate(tab, push) {
+  function activate(tab, push, scroll) {
     btns.forEach(function(b) {
       b.classList.toggle('active', b.getAttribute('data-tab') === tab);
     });
     panels.forEach(function(p) {
       p.classList.toggle('active', p.id === 'tab-' + tab);
     });
+    if (push) history.pushState({tab: tab}, '', urlFor(tab));
     requestAnimationFrame(function() {
       var panel = document.getElementById('tab-' + tab);
       if (!panel) return;
       [].slice.call(panel.querySelectorAll('.reveal:not(.in)')).forEach(function(el) {
         el.classList.add('in');
       });
+      if (scroll) {
+        window.scrollTo({top: Math.max(0, panel.offsetTop - 64), behavior: 'smooth'});
+      }
     });
-    if (push) history.pushState({tab: tab}, '', urlFor(tab));
-    window.scrollTo(0, 0);
   }
 
   btns.forEach(function(btn) {
     btn.addEventListener('click', function() {
-      activate(btn.getAttribute('data-tab'), true);
+      activate(btn.getAttribute('data-tab'), true, true);
     });
   });
 
