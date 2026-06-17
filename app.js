@@ -97,10 +97,10 @@
     }
   }
 
-  /* hover controls row while cursor is inside the list; scroll-spy resumes on mouseleave */
+  /* hover locks selection; mouseleave keeps the lock — scroll is the only thing that releases it */
   var hovering = false;
   var list = document.querySelector('.ach-list');
-  if (list) list.addEventListener('mouseleave', function(){ hovering = false; spy(); });
+  if (list) list.addEventListener('mouseleave', function(){ hovering = false; });
   rows.forEach(function(r,i){
     r.addEventListener('mouseenter', function(){ hovering = true; set(i); });
     r.addEventListener('click', function(e){ e.preventDefault(); set(i); });
@@ -129,7 +129,7 @@
     if (p < 0) p = 0; else if (p > 1) p = 1;
     set(Math.round(p * (N - 1)));
   }
-  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(spy); } }
+  function onScroll(){ hovering = false; if (!ticking){ ticking = true; requestAnimationFrame(spy); } }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
   spy();
