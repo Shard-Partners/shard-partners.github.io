@@ -145,6 +145,34 @@
     return tab === 'about' ? '/#About' : '/' + tab;
   }
 
+  /* Self-driven smooth scroll. We set scroll position every frame with
+     scroll-behavior:auto, so the browser can never cancel it (native
+     scrollIntoView/scrollTo smooth scrolls get silently dropped when they
+     collide with a settling scroll or scroll-anchoring during the panel swap —
+     that was the intermittent "doesn't scroll down" bug). */
+  var scrollRAF = null;
+  function smoothScrollTo(targetY, duration) {
+    if (scrollRAF) cancelAnimationFrame(scrollRAF);
+    var startY = window.scrollY || window.pageYOffset || 0;
+    var diff = targetY - startY;
+    document.documentElement.style.scrollBehavior = 'auto';
+    if (Math.abs(diff) < 2) { window.scrollTo(0, targetY); return; }
+    var start = null;
+    function step(ts) {
+      if (start === null) start = ts;
+      var t = Math.min(1, (ts - start) / duration);
+      var eased = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;  // easeInOutCubic
+      window.scrollTo(0, Math.round(startY + diff * eased));
+      if (t < 1) {
+        scrollRAF = requestAnimationFrame(step);
+      } else {
+        scrollRAF = null;
+        document.documentElement.style.scrollBehavior = '';
+      }
+    }
+    scrollRAF = requestAnimationFrame(step);
+  }
+
   function tabFromURL() {
     var hash = location.hash.replace(/^#/, '').toLowerCase();
     if (TABS.indexOf(hash) >= 0) return hash;
@@ -173,17 +201,18 @@
     });
 
     if (scroll) {
-      // Instant jump to top so user sees the hero first
+      // 1. Instant jump to top so the user sees the hero first
+      if (scrollRAF) { cancelAnimationFrame(scrollRAF); scrollRAF = null; }
       document.documentElement.style.scrollBehavior = 'auto';
       window.scrollTo(0, 0);
       var chHead = panel.querySelector('.ch-head');
       if (chHead) {
-        // scrollIntoView with explicit behavior:'smooth' is not cancelled by
-        // window.scrollTo or scroll-behavior CSS changes
+        // 2. Hold on the hero a beat, then self-driven smooth scroll to the title
         setTimeout(function() {
-          document.documentElement.style.scrollBehavior = '';
-          chHead.scrollIntoView({behavior: 'smooth', block: 'start'});
-        }, 50);
+          var navH = (document.getElementById('nav') || {offsetHeight: 80}).offsetHeight;
+          var target = Math.max(0, chHead.getBoundingClientRect().top + (window.scrollY || 0) - navH - 24);
+          smoothScrollTo(target, 720);
+        }, 180);
       } else {
         document.documentElement.style.scrollBehavior = '';
       }
