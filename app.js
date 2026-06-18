@@ -205,12 +205,13 @@
       if (scrollRAF) { cancelAnimationFrame(scrollRAF); scrollRAF = null; }
       document.documentElement.style.scrollBehavior = 'auto';
       window.scrollTo(0, 0);
-      var chHead = panel.querySelector('.ch-head');
-      if (chHead) {
+      // .ch-head for standard sections; h2 catches contact's .closing; .chapter as last resort
+      var scrollAnchor = panel.querySelector('.ch-head') || panel.querySelector('h2') || panel.querySelector('.chapter');
+      if (scrollAnchor) {
         // 2. Hold on the hero a beat, then self-driven smooth scroll to the title
         setTimeout(function() {
           var navH = (document.getElementById('nav') || {offsetHeight: 80}).offsetHeight;
-          var target = Math.max(0, chHead.getBoundingClientRect().top + (window.scrollY || 0) - navH - 24);
+          var target = Math.max(0, scrollAnchor.getBoundingClientRect().top + (window.scrollY || 0) - navH - 24);
           smoothScrollTo(target, 720);
         }, 180);
       } else {
