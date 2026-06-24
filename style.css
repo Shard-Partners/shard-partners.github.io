@@ -475,6 +475,16 @@ html.shot-mode .ss-slide{transition:none!important;animation:none!important}
 .port-name{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink)}
 .port-desc{font-size:13.5px;line-height:1.55;color:var(--dim);font-weight:400}
 .port-desc.kr{font-family:var(--kr);word-break:keep-all}
+.port-tags{display:flex;flex-wrap:wrap;align-items:center;gap:13px;margin-bottom:9px}
+.port-tag{
+  position:relative;
+  font-family:var(--kr);font-size:9.5px;font-weight:500;
+  letter-spacing:.1em;line-height:1;color:var(--blue);
+}
+.port-tag + .port-tag::before{
+  content:"";position:absolute;left:-7px;top:50%;transform:translateY(-50%);
+  width:1px;height:10px;background:var(--hair);
+}
 @media(max-width:920px){
   #portfolio{padding:140px 0 120px}
   .port-grid{grid-template-columns:repeat(2,1fr);gap:36px 20px}
