@@ -178,13 +178,22 @@
     }
     scrollRAF = requestAnimationFrame(step);
   }
+  // Layout (transform-agnostic) document top: a section's heading carries the
+  // .reveal transform, so use offsetTop rather than getBoundingClientRect so
+  // the pre-reveal 30px shift can't skew the target.
+  function docTop(el){ var y = 0; for (var n = el; n; n = n.offsetParent) y += n.offsetTop; return y; }
+  // The heading we bring to the top of the view for each section.
+  function headOf(id){ var el = document.getElementById(id); return el ? (el.querySelector('.ch-head, .closing') || el) : null; }
   function yOf(id) {
-    var el = document.getElementById(id);
-    if (!el) return 0;
+    var head = headOf(id);
+    if (!head) return 0;
     var maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-    return Math.min(Math.max(0, el.getBoundingClientRect().top + window.scrollY - navH() - 16), maxY);
+    // land the section's heading just under the fixed nav (e.g. "The Minds" at top)
+    return Math.min(Math.max(0, docTop(head) - navH() - 14), maxY);
   }
   function go(id, push) {
+    var head = headOf(id);
+    if (head) head.classList.add('in');   // pre-reveal heading so it doesn't settle 30px on arrival
     smoothScrollTo(yOf(id), 760);
     if (push && history.pushState) history.pushState(null, '', '#' + id);
     setActive(id);
