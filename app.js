@@ -136,107 +136,94 @@
 })();
 
 (function(){
-  var TABS   = ['about','team','portfolio','contact'];
-  var btns   = [].slice.call(document.querySelectorAll('.tab-btn'));
-  var panels = [].slice.call(document.querySelectorAll('.tab-panel'));
-  if (!btns.length) return;
+  /* Single-scroll section nav: the top menu smooth-scrolls to its section and
+     a scroll-spy keeps the matching menu item highlighted. (Replaces the old
+     tab system — the page is now one continuous scroll.) */
+  var nav   = document.getElementById('nav');
+  var links = [].slice.call(document.querySelectorAll('.tab-btn[data-target]'));
+  var brand = document.querySelector('#nav .brand');
+  if (!links.length) return;
 
-  function urlFor(tab) {
-    return tab === 'about' ? '/#About' : '/' + tab;
+  // Menu landmarks in scroll order. Sections that sit *between* landmarks
+  // belong to the preceding landmark (practice→About, recognition→Team,
+  // eth-video→Contact) so the highlight never goes blank.
+  var ORDER = ['story', 'team', 'portfolio', 'contact'];
+  function groupFor(id) {
+    var m = { hero:'story', story:'story', practice:'story',
+              team:'team', recognition:'team',
+              portfolio:'portfolio', contact:'contact', 'eth-video':'contact' };
+    return m[id] || 'story';
   }
+  function setActive(id) {
+    var g = groupFor(id);
+    links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('data-target') === g); });
+  }
+  function navH(){ return (nav && nav.offsetHeight) || 72; }
 
-  /* Self-driven smooth scroll. We set scroll position every frame with
-     scroll-behavior:auto, so the browser can never cancel it (native
-     scrollIntoView/scrollTo smooth scrolls get silently dropped when they
-     collide with a settling scroll or scroll-anchoring during the panel swap —
-     that was the intermittent "doesn't scroll down" bug). */
+  /* Self-driven eased scroll (easeInOutCubic) — written every frame with
+     scroll-behavior:auto so the browser can't drop it mid-flight. */
   var scrollRAF = null;
   function smoothScrollTo(targetY, duration) {
     if (scrollRAF) cancelAnimationFrame(scrollRAF);
-    var startY = window.scrollY || window.pageYOffset || 0;
-    var diff = targetY - startY;
+    var startY = window.scrollY || window.pageYOffset || 0, diff = targetY - startY, start = null;
     document.documentElement.style.scrollBehavior = 'auto';
     if (Math.abs(diff) < 2) { window.scrollTo(0, targetY); return; }
-    var start = null;
     function step(ts) {
       if (start === null) start = ts;
       var t = Math.min(1, (ts - start) / duration);
-      var eased = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;  // easeInOutCubic
-      window.scrollTo(0, Math.round(startY + diff * eased));
-      if (t < 1) {
-        scrollRAF = requestAnimationFrame(step);
-      } else {
-        scrollRAF = null;
-        document.documentElement.style.scrollBehavior = '';
-      }
+      var e = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+      window.scrollTo(0, Math.round(startY + diff * e));
+      if (t < 1) { scrollRAF = requestAnimationFrame(step); }
+      else { scrollRAF = null; document.documentElement.style.scrollBehavior = ''; }
     }
     scrollRAF = requestAnimationFrame(step);
   }
-
-  function tabFromURL() {
-    var hash = location.hash.replace(/^#/, '').toLowerCase();
-    if (TABS.indexOf(hash) >= 0) return hash;
-    var path = location.pathname.replace(/^\//, '').toLowerCase();
-    if (TABS.indexOf(path) >= 0) return path;
-    return 'about';
+  function yOf(id) {
+    var el = document.getElementById(id);
+    if (!el) return 0;
+    var maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    return Math.min(Math.max(0, el.getBoundingClientRect().top + window.scrollY - navH() - 16), maxY);
+  }
+  function go(id, push) {
+    smoothScrollTo(yOf(id), 760);
+    if (push && history.pushState) history.pushState(null, '', '#' + id);
+    setActive(id);
   }
 
-  function activate(tab, push, scroll) {
-    btns.forEach(function(b) {
-      b.classList.toggle('active', b.getAttribute('data-tab') === tab);
+  links.forEach(function(a) {
+    a.addEventListener('click', function(e) { e.preventDefault(); go(a.getAttribute('data-target'), true); });
+  });
+  if (brand) {
+    brand.addEventListener('click', function(e) {
+      e.preventDefault();
+      smoothScrollTo(0, 700);
+      if (history.pushState) history.pushState(null, '', location.pathname + location.search);
+      setActive('story');
     });
-    panels.forEach(function(p) {
-      p.classList.toggle('active', p.id === 'tab-' + tab);
-    });
-    if (push) history.pushState({tab: tab}, '', urlFor(tab));
+  }
 
-    var panel = document.getElementById('tab-' + tab);
-    if (!panel) return;
-
-    // Reveal animations in next paint
-    requestAnimationFrame(function() {
-      [].slice.call(panel.querySelectorAll('.reveal:not(.in)')).forEach(function(el) {
-        el.classList.add('in');
-      });
-    });
-
-    if (scroll) {
-      // 1. Instant jump to top so the user sees the hero first
-      if (scrollRAF) { cancelAnimationFrame(scrollRAF); scrollRAF = null; }
-      document.documentElement.style.scrollBehavior = 'auto';
-      window.scrollTo(0, 0);
-      // .ch-head for standard sections; h2 catches contact's .closing; .chapter as last resort
-      var scrollAnchor = panel.querySelector('.ch-head') || panel.querySelector('h2') || panel.querySelector('.chapter');
-      if (scrollAnchor) {
-        // 2. Hold on the hero a beat, then self-driven smooth scroll to the title
-        setTimeout(function() {
-          var navH = (document.getElementById('nav') || {offsetHeight: 80}).offsetHeight;
-          var target = Math.max(0, scrollAnchor.getBoundingClientRect().top + (window.scrollY || 0) - navH - 24);
-          smoothScrollTo(target, 720);
-        }, 180);
-      } else {
-        document.documentElement.style.scrollBehavior = '';
-      }
+  /* scroll-spy: the active landmark is the last one whose top has crossed the
+     line just under the fixed nav. */
+  var ticking = false;
+  function spy() {
+    ticking = false;
+    var line = window.scrollY + navH() + 48, active = ORDER[0];
+    for (var i = 0; i < ORDER.length; i++) {
+      var el = document.getElementById(ORDER[i]);
+      if (el && el.getBoundingClientRect().top + window.scrollY <= line) active = ORDER[i];
     }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) active = ORDER[ORDER.length - 1];
+    setActive(active);
   }
+  window.addEventListener('scroll', function(){ if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, { passive: true });
+  window.addEventListener('resize', function(){ if (!ticking) { ticking = true; requestAnimationFrame(spy); } });
 
-  btns.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      activate(btn.getAttribute('data-tab'), true, true);
-    });
-  });
-
-  window.addEventListener('popstate', function(e) {
-    activate((e.state && e.state.tab) || tabFromURL(), false);
-  });
-
-  // Initial load: 404 redirect → sessionStorage, or parse current URL
-  var stored = sessionStorage.getItem('__tab');
-  if (stored && TABS.indexOf(stored) >= 0) {
-    sessionStorage.removeItem('__tab');
-    activate(stored, true);   // restore the clean URL (e.g. /team)
+  /* initial hash (incl. old /team-style links remapped by 404.html) → jump there */
+  var h = (location.hash || '').replace(/^#/, '');
+  if (h && document.getElementById(h)) {
+    requestAnimationFrame(function(){ window.scrollTo(0, yOf(h)); setActive(h); });
   } else {
-    activate(tabFromURL(), false);
+    spy();
   }
 })();
 

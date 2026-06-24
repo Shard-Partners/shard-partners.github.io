@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <title>Shard Partners</title>
 <script>
-var tab = location.pathname.replace(/^\/+/,'').split('/')[0].toLowerCase();
-var ok  = ['about','team','portfolio','contact'];
-if (ok.indexOf(tab) >= 0) sessionStorage.setItem('__tab', tab);
-location.replace('/');
+// Single-scroll page: remap old path-style deep links to the section hash.
+var seg = location.pathname.replace(/^\/+/,'').split('/')[0].toLowerCase();
+var map = { about:'story', team:'team', portfolio:'portfolio', contact:'contact' };
+location.replace('/' + (map[seg] ? '#' + map[seg] : ''));
 </script>
 </head>
 </html>
