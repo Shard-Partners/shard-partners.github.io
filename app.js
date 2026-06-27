@@ -405,6 +405,36 @@
 })();
 
 (function(){
+  /* Language toggle: KO (default) ↔ EN. Saves choice to localStorage.
+     The html.en class drives all .t-kr / .t-en visibility via CSS. */
+  var btn = document.getElementById('lang-toggle');
+  if (!btn) return;
+
+  function setLang(lang, animate) {
+    function apply() {
+      if (lang === 'en') document.documentElement.classList.add('en');
+      else document.documentElement.classList.remove('en');
+      try { localStorage.setItem('shard-lang', lang); } catch(e) {}
+      if (animate) document.body.classList.remove('lang-fading');
+    }
+    if (animate) {
+      document.body.classList.add('lang-fading');
+      setTimeout(apply, 180);
+    } else {
+      apply();
+    }
+  }
+
+  var saved;
+  try { saved = localStorage.getItem('shard-lang'); } catch(e) {}
+  if (saved === 'en') setLang('en', false);
+
+  btn.addEventListener('click', function() {
+    setLang(document.documentElement.classList.contains('en') ? 'ko' : 'en', true);
+  });
+})();
+
+(function(){
   var modal   = document.getElementById('modal-paul');
   var trigger = document.querySelector('[data-modal="paul"]');
   if (!modal || !trigger) return;

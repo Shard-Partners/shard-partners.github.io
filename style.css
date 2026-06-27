@@ -654,3 +654,33 @@ html.shot-mode .ss-slide{transition:none!important;animation:none!important}
 @media (max-width:720px){
   .bio-modal-inner{margin:auto}
 }
+
+/* ── LANGUAGE TOGGLE ── */
+.lang-toggle{
+  background:none;border:none;cursor:pointer;padding:0;
+  display:flex;align-items:center;gap:5px;
+  font-family:var(--latin);font-size:10px;font-weight:400;
+  letter-spacing:.26em;text-transform:uppercase;
+  color:var(--faint);transition:color .4s ease;flex-shrink:0;
+}
+.lang-toggle:hover{color:var(--ink)}
+.lt-sep{letter-spacing:0;color:var(--hair)}
+html:not(.en) .lt-ko{color:var(--ink)}
+html.en .lt-en{color:var(--ink)}
+
+/* ── BILINGUAL CONTENT ── */
+html:not(.en) .t-en{display:none!important}
+html.en .t-kr{display:none!important}
+html.en .t-en{font-family:var(--latin);word-break:normal;overflow-wrap:break-word}
+html.en .bio-modal-bio.t-en p{word-break:normal;overflow-wrap:break-word}
+html.en .bio-modal-quote.t-en{word-break:normal;overflow-wrap:break-word}
+html.en .port-tags.t-en .port-tag{font-family:var(--latin)}
+
+/* ── LANG SWITCH TRANSITION ── */
+body{transition:opacity .18s ease}
+body.lang-fading{opacity:0}
+
+/* mobile: space-between so lang-toggle sits at the far right; overrides the center from above */
+@media(max-width:480px){
+  #nav{justify-content:space-between}
+}
