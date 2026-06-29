@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shard-partners.github.io/sitemap.xml
+Sitemap: https://www.shardpartners.com/sitemap.xml
