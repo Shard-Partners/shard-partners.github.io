@@ -147,7 +147,7 @@
   // Menu landmarks in scroll order. Sections that sit *between* landmarks
   // belong to the preceding landmark (practice→About, recognition→Team,
   // eth-video→Contact) so the highlight never goes blank.
-  var ORDER = ['story', 'team', 'portfolio', 'contact'];
+  var ORDER = ['story', 'team', 'contact', 'portfolio'];
   function groupFor(id) {
     var m = { hero:'story', story:'story', practice:'story',
               team:'team', recognition:'team',
