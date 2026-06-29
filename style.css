@@ -684,3 +684,68 @@ body.lang-fading{opacity:0}
 @media(max-width:480px){
   #nav{justify-content:space-between}
 }
+
+/* ============================================================
+   MOBILE NAV + TEAM REFINEMENT (≤768) — appended last so it wins
+   the cascade. Nothing here matches above 768px, so the desktop
+   view is unchanged.
+   ============================================================ */
+
+/* Hamburger button — hidden on desktop. It's a brand-new element with no
+   desktop presence, so adding it doesn't alter the desktop layout. */
+.nav-toggle{
+  display:none;
+  width:34px;height:34px;padding:0;margin:0;border:0;background:none;cursor:pointer;
+  flex-direction:column;align-items:center;justify-content:center;gap:6px;
+}
+.nav-toggle-bar{
+  display:block;width:22px;height:1.5px;border-radius:2px;background:var(--ink);
+  transition:transform .35s cubic-bezier(.22,.6,.2,1),opacity .25s ease;
+}
+
+/* Korean must break on word (space) boundaries, never mid-word. This is a
+   no-op on desktop, where these names/credentials never wrap. */
+.p-name,.bio-modal-name,.bio-cred-items li{word-break:keep-all}
+
+@media (max-width:768px){
+  /* top bar: brand (left) · language toggle + hamburger (right) */
+  #nav{justify-content:flex-start;gap:14px;padding:16px 20px}
+  #nav .brand{display:block;white-space:nowrap;position:relative;z-index:2}
+  #lang-toggle{margin-left:auto;position:relative;z-index:2}
+  .nav-toggle{display:flex;position:relative;z-index:2}
+
+  /* the four links become a full-screen overlay menu */
+  #nav .links{
+    position:fixed;inset:0;z-index:1;
+    flex-direction:column;justify-content:center;align-items:center;gap:4px;
+    padding:96px 24px 48px;
+    background:rgba(5,6,8,.975);
+    -webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);
+    opacity:0;pointer-events:none;
+    transition:opacity .42s cubic-bezier(.22,.6,.2,1);
+  }
+  body.nav-open{overflow:hidden}
+  body.nav-open #nav .links{opacity:1;pointer-events:auto}
+  #nav .links a.tab-btn{
+    font-size:17px;font-weight:300;letter-spacing:.16em;color:var(--dim);padding:17px 28px;
+  }
+  #nav .links a.tab-btn.active{color:var(--ink);letter-spacing:.16em}
+  #nav .links a.tab-btn::after{display:none}
+
+  /* hamburger → X */
+  body.nav-open .nav-toggle-bar:nth-child(1){transform:translateY(3.75px) rotate(45deg)}
+  body.nav-open .nav-toggle-bar:nth-child(2){transform:translateY(-3.75px) rotate(-45deg)}
+
+  /* team: drop the dense credentials from the cards (the full bio is one tap
+     away in the modal) and give the general partners a roomier 2-up grid */
+  #team .p-cred{display:none}
+  .gps{grid-template-columns:repeat(2,1fr);gap:34px 20px}
+
+  /* recognition: center and cap the award image so it isn't a giant block */
+  .ach-stage{max-width:360px;margin-left:auto;margin-right:auto}
+}
+
+/* leads (the 3 founders) stack into a single clean column on phones */
+@media (max-width:640px){
+  .leads{grid-template-columns:1fr;gap:44px;margin-top:48px}
+}

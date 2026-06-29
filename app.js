@@ -147,7 +147,7 @@
   // Menu landmarks in scroll order. Sections that sit *between* landmarks
   // belong to the preceding landmark (practice→About, recognition→Team,
   // eth-video→Contact) so the highlight never goes blank.
-  var ORDER = ['story', 'team', 'contact', 'portfolio'];
+  var ORDER = ['story', 'team', 'portfolio', 'contact'];
   function groupFor(id) {
     var m = { hero:'story', story:'story', practice:'story',
               team:'team', recognition:'team',
@@ -432,6 +432,25 @@
   btn.addEventListener('click', function() {
     setLang(document.documentElement.classList.contains('en') ? 'ko' : 'en', true);
   });
+})();
+
+(function(){
+  /* Mobile nav: the hamburger toggles the full-screen menu overlay.
+     body.nav-open drives the overlay + the X animation via CSS. */
+  var btn = document.getElementById('nav-toggle');
+  var navLinks = document.getElementById('nav-links');
+  if (btn && navLinks) {
+    var setOpen = function(open){
+      document.body.classList.toggle('nav-open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    btn.addEventListener('click', function(){ setOpen(!document.body.classList.contains('nav-open')); });
+    /* tapping a destination closes the menu — the link's own handler scrolls */
+    navLinks.addEventListener('click', function(e){ if (e.target.closest('.tab-btn')) setOpen(false); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && document.body.classList.contains('nav-open')) setOpen(false); });
+    window.addEventListener('resize', function(){ if (window.innerWidth > 768 && document.body.classList.contains('nav-open')) setOpen(false); });
+  }
 })();
 
 (function(){
