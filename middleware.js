@@ -43,17 +43,6 @@ const BLOCKED = new Set([
 export default function middleware(request) {
   const country = request.headers.get('x-vercel-ip-country') || 'XX';
 
-  // --- TEMPORARY self-test endpoint (removed after verification) ---
-  const url = new URL(request.url);
-  if (url.searchParams.has('geocheck')) {
-    const tested = (url.searchParams.get('test') || country).toUpperCase();
-    return Response.json(
-      { detected: country, tested, blocked: BLOCKED.has(tested), total: BLOCKED.size },
-      { headers: { 'cache-control': 'no-store' } }
-    );
-  }
-  // --- end self-test ---
-
   if (BLOCKED.has(country)) {
     return new Response(blockPage(country), {
       status: 451,
