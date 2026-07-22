@@ -686,6 +686,8 @@ html.zh .t-zh{font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',sans-se
 html.zh .bio-modal-bio.t-zh p{word-break:normal;overflow-wrap:break-word}
 html.zh .bio-modal-quote.t-zh{word-break:normal;overflow-wrap:break-word}
 html.zh .port-tags.t-zh .port-tag{font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',sans-serif}
+html.en .han{display:none!important}
+html.zh .han{display:none!important}
 
 /* ── LANG SWITCH TRANSITION ── */
 body{transition:opacity .18s ease}
