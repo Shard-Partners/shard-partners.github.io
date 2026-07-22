@@ -6,11 +6,13 @@
     <a class="tab-btn" href="#portfolio" data-target="portfolio">Portfolio</a>
     <a class="tab-btn" href="#contact" data-target="contact">Contact</a>
   </div>
-  <button id="lang-toggle" class="lang-toggle" aria-label="Toggle language">
-    <span class="lt-ko">KO</span>
-    <span class="lt-sep">·</span>
-    <span class="lt-en">EN</span>
-  </button>
+  <div id="lang-toggle" class="lang-toggle" role="group" aria-label="Language">
+    <button class="lt-btn lt-en" data-lang="en">EN</button>
+    <span class="lt-sep" aria-hidden="true">·</span>
+    <button class="lt-btn lt-cn" data-lang="zh">CN</button>
+    <span class="lt-sep" aria-hidden="true">·</span>
+    <button class="lt-btn lt-kr" data-lang="ko">KR</button>
+  </div>
   <button id="nav-toggle" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
     <span class="nav-toggle-bar"></span>
     <span class="nav-toggle-bar"></span>

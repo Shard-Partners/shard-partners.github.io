@@ -405,15 +405,16 @@
 })();
 
 (function(){
-  /* Language toggle: KO (default) ↔ EN. Saves choice to localStorage.
-     The html.en class drives all .t-kr / .t-en visibility via CSS. */
-  var btn = document.getElementById('lang-toggle');
-  if (!btn) return;
+  /* Language toggle: KR (default) / EN / CN (zh). Saves to localStorage.
+     html.en or html.zh class drives .t-kr / .t-en / .t-zh visibility via CSS. */
+  var btns = [].slice.call(document.querySelectorAll('.lt-btn'));
+  if (!btns.length) return;
 
   function setLang(lang, animate) {
     function apply() {
+      document.documentElement.classList.remove('en', 'zh');
       if (lang === 'en') document.documentElement.classList.add('en');
-      else document.documentElement.classList.remove('en');
+      else if (lang === 'zh') document.documentElement.classList.add('zh');
       try { localStorage.setItem('shard-lang', lang); } catch(e) {}
       if (animate) document.body.classList.remove('lang-fading');
     }
@@ -427,10 +428,12 @@
 
   var saved;
   try { saved = localStorage.getItem('shard-lang'); } catch(e) {}
-  if (saved === 'en') setLang('en', false);
+  if (saved === 'en' || saved === 'zh') setLang(saved, false);
 
-  btn.addEventListener('click', function() {
-    setLang(document.documentElement.classList.contains('en') ? 'ko' : 'en', true);
+  btns.forEach(function(b) {
+    b.addEventListener('click', function() {
+      setLang(b.getAttribute('data-lang'), true);
+    });
   });
 })();
 

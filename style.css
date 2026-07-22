@@ -657,24 +657,35 @@ html.shot-mode .ss-slide{transition:none!important;animation:none!important}
 
 /* ── LANGUAGE TOGGLE ── */
 .lang-toggle{
-  background:none;border:none;cursor:pointer;padding:0;
   display:flex;align-items:center;gap:5px;
   font-family:var(--latin);font-size:10px;font-weight:400;
   letter-spacing:.26em;text-transform:uppercase;
-  color:var(--faint);transition:color .4s ease;flex-shrink:0;
+  color:var(--faint);flex-shrink:0;
 }
-.lang-toggle:hover{color:var(--ink)}
+.lt-btn{
+  background:none;border:none;cursor:pointer;padding:0;
+  font:inherit;letter-spacing:inherit;text-transform:inherit;
+  color:inherit;transition:color .4s ease;
+}
+.lt-btn:hover{color:var(--ink)}
 .lt-sep{letter-spacing:0;color:var(--hair)}
-html:not(.en) .lt-ko{color:var(--ink)}
+html:not(.en):not(.zh) .lt-kr{color:var(--ink)}
 html.en .lt-en{color:var(--ink)}
+html.zh .lt-cn{color:var(--ink)}
 
-/* ── BILINGUAL CONTENT ── */
+/* ── TRILINGUAL CONTENT ── */
 html:not(.en) .t-en{display:none!important}
+html:not(.zh) .t-zh{display:none!important}
 html.en .t-kr{display:none!important}
+html.zh .t-kr{display:none!important}
 html.en .t-en{font-family:var(--latin);word-break:normal;overflow-wrap:break-word}
 html.en .bio-modal-bio.t-en p{word-break:normal;overflow-wrap:break-word}
 html.en .bio-modal-quote.t-en{word-break:normal;overflow-wrap:break-word}
 html.en .port-tags.t-en .port-tag{font-family:var(--latin)}
+html.zh .t-zh{font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',sans-serif;word-break:normal;overflow-wrap:break-word}
+html.zh .bio-modal-bio.t-zh p{word-break:normal;overflow-wrap:break-word}
+html.zh .bio-modal-quote.t-zh{word-break:normal;overflow-wrap:break-word}
+html.zh .port-tags.t-zh .port-tag{font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',sans-serif}
 
 /* ── LANG SWITCH TRANSITION ── */
 body{transition:opacity .18s ease}
