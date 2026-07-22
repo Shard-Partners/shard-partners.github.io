@@ -428,7 +428,19 @@
 
   var saved;
   try { saved = localStorage.getItem('shard-lang'); } catch(e) {}
-  if (saved === 'en' || saved === 'zh') setLang(saved, false);
+  if (saved === 'en' || saved === 'zh') {
+    setLang(saved, false);
+  } else if (!saved) {
+    // No manual preference — use geo default from cookie set by Vercel middleware
+    var geoCookie = null;
+    document.cookie.split(';').forEach(function(c) {
+      var p = c.trim().split('=');
+      if (p[0] === 'shard-lang-geo') geoCookie = p.slice(1).join('=');
+    });
+    if (geoCookie === 'en' || geoCookie === 'zh') setLang(geoCookie, false);
+    // 'ko' or missing → Korean default, no action needed
+  }
+  // 'ko' in localStorage → Korean default, no action needed
 
   btns.forEach(function(b) {
     b.addEventListener('click', function() {

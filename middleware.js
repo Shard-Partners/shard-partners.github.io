@@ -40,7 +40,7 @@ const BLOCKED = new Set([
   'TR',
 ]);
 
-export default function middleware(request) {
+export default async function middleware(request) {
   const country = request.headers.get('x-vercel-ip-country') || 'XX';
 
   if (BLOCKED.has(country)) {
@@ -53,8 +53,31 @@ export default function middleware(request) {
     });
   }
 
-  // Allowed — return nothing so the request continues to the static site.
-  return;
+  // Geo-default language: KR→ko, CN→zh, everywhere else→en
+  const geoLang = country === 'KR' ? 'ko' : country === 'CN' ? 'zh' : 'en';
+
+  // Check if the cookie is already correct to avoid an unnecessary origin fetch
+  const cookieHeader = request.headers.get('cookie') || '';
+  var existingGeo = null;
+  cookieHeader.split(';').forEach(function(c) {
+    var p = c.trim().split('=');
+    if (p[0] === 'shard-lang-geo') existingGeo = p.slice(1).join('=');
+  });
+
+  if (existingGeo === geoLang) {
+    // Cookie already correct — pass through unchanged
+    return;
+  }
+
+  // Set or refresh the geo-language cookie
+  const response = await fetch(request);
+  const headers = new Headers(response.headers);
+  headers.append('Set-Cookie', `shard-lang-geo=${geoLang}; Path=/; Max-Age=2592000; SameSite=Lax`);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 function blockPage(country) {
