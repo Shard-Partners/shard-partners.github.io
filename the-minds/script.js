@@ -108,3 +108,11 @@ function initBioModal(name){
   });
 }
 ['philip','han','danial','denis','paul','howard'].forEach(initBioModal);
+
+(function(){
+  var hint = document.getElementById('scroll-hint');
+  if (!hint) return;
+  function check(){ hint.classList.toggle('is-hidden', window.scrollY > 120); }
+  window.addEventListener('scroll', check, { passive: true });
+  check();
+})();

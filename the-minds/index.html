@@ -10,7 +10,21 @@
 <link rel="stylesheet" href="/style.css">
 <style>
   @media (min-width:641px){
-    .leads{grid-template-columns:repeat(2,1fr)}
+    .gps{grid-template-columns:repeat(3,1fr)}
+  }
+  .scroll-hint{
+    position:fixed;left:50%;bottom:30px;transform:translateX(-50%);
+    z-index:5;color:var(--dim);opacity:.6;pointer-events:none;
+    transition:opacity .6s ease;
+  }
+  .scroll-hint.is-hidden{opacity:0}
+  .scroll-hint svg{display:block;animation:scrollHintBob 2.2s ease-in-out infinite}
+  @keyframes scrollHintBob{
+    0%,100%{transform:translateY(0);opacity:.55}
+    50%{transform:translateY(6px);opacity:1}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .scroll-hint svg{animation:none}
   }
 </style>
 <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
@@ -24,7 +38,17 @@
     </div>
 
     <div class="leads">
-      <figure class="person reveal" data-modal="philip" role="button" tabindex="0" style="cursor:pointer">
+      <figure class="person reveal" data-modal="paul" role="button" tabindex="0" style="cursor:pointer">
+        <div class="still">
+          <div class="iw" data-plx=".16"><img src="/img/team-paul.jpg" alt="Paul 조상근" style="object-position:50% 26%"></div>
+        </div>
+        <figcaption class="p-meta">
+          <div class="p-name">Paul<span class="han">조상근</span></div>
+          <div class="p-role">Co-Founder / 전략</div>
+          <div class="p-cred">B.S. 뉴욕대학교 컴퓨터공학<br>Previously RomeDAO</div>
+        </figcaption>
+      </figure>
+      <figure class="person reveal d1" data-modal="philip" role="button" tabindex="0" style="cursor:pointer">
         <div class="still">
           <div class="iw" data-plx=".16"><img src="/img/team-philip.jpg" alt="Philip 정필원" style="object-position:50% 18%"></div>
         </div>
@@ -34,7 +58,7 @@
           <div class="p-cred">M.S. KAIST 기술경영학부<br>Founder, 카옌 프로토콜</div>
         </figcaption>
       </figure>
-      <figure class="person reveal d1" data-modal="han" role="button" tabindex="0" style="cursor:pointer">
+      <figure class="person reveal d2" data-modal="han" role="button" tabindex="0" style="cursor:pointer">
         <div class="still">
           <div class="iw" data-plx=".16"><img src="/img/team-han.jpg" alt="Han 한성원" style="object-position:50% 30%"></div>
         </div>
@@ -67,17 +91,7 @@
           <div class="p-cred">CTO, Renaissance Labs<br>Previously Toss (토스)</div>
         </figcaption>
       </figure>
-      <figure class="person reveal d2" data-modal="paul" role="button" tabindex="0" style="cursor:pointer">
-        <div class="still">
-          <div class="iw"><img src="/img/team-paul.jpg" alt="Paul 조상근" style="object-position:50% 26%"></div>
-        </div>
-        <figcaption class="p-meta">
-          <div class="p-name">Paul<span class="han">조상근</span></div>
-          <div class="p-role">Co-Founder / 전략</div>
-          <div class="p-cred">B.S. 뉴욕대학교 컴퓨터공학<br>Previously RomeDAO</div>
-        </figcaption>
-      </figure>
-      <figure class="person reveal d3" data-modal="howard" role="button" tabindex="0" style="cursor:pointer">
+      <figure class="person reveal d2" data-modal="howard" role="button" tabindex="0" style="cursor:pointer">
         <div class="still">
           <div class="iw"><img src="/img/team-howard.jpg" alt="Howard 한현수" style="object-position:50% 50%"></div>
         </div>
@@ -440,6 +454,12 @@
     </div>
   </div>
 </section>
+
+<div class="scroll-hint" id="scroll-hint" aria-hidden="true">
+  <svg width="16" height="9" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1 1L8 8L15 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
 
 <script src="script.js"></script>
 </body>
