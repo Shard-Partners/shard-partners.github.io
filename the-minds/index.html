@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/style.css">
 <style>
   @media (min-width:641px){
-    .gps{grid-template-columns:repeat(3,1fr)}
+    .leads{grid-template-columns:repeat(4,1fr)}
   }
   .scroll-hint{
     position:fixed;left:50%;bottom:30px;transform:translateX(-50%);
@@ -68,37 +68,14 @@
           <div class="p-cred">M.S. KAIST 기술경영학부<br>Previously 수호아이오</div>
         </figcaption>
       </figure>
-    </div>
-
-    <div class="gps">
-      <figure class="person reveal" data-modal="danial" role="button" tabindex="0" style="cursor:pointer">
+      <figure class="person reveal d3" data-modal="denis" role="button" tabindex="0" style="cursor:pointer">
         <div class="still">
-          <div class="iw"><img src="/img/team-danial.jpg" alt="Danial 안의진" style="object-position:32% 40%"></div>
-        </div>
-        <figcaption class="p-meta">
-          <div class="p-name">Danial<span class="han">안의진</span></div>
-          <div class="p-role">Co-Founder / 개발</div>
-          <div class="p-cred">Previously Hyundai Autoever<br>Previously United Nations</div>
-        </figcaption>
-      </figure>
-      <figure class="person reveal d1" data-modal="denis" role="button" tabindex="0" style="cursor:pointer">
-        <div class="still">
-          <div class="iw"><img src="/img/team-denis.jpg" alt="Denis 김성래" style="object-position:50% 50%"></div>
+          <div class="iw" data-plx=".16"><img src="/img/team-denis.jpg" alt="Denis 김성래" style="object-position:50% 50%"></div>
         </div>
         <figcaption class="p-meta">
           <div class="p-name">Denis<span class="han">김성래</span></div>
           <div class="p-role">Co-Founder / 개발</div>
           <div class="p-cred">CTO, Renaissance Labs<br>Previously Toss (토스)</div>
-        </figcaption>
-      </figure>
-      <figure class="person reveal d2" data-modal="howard" role="button" tabindex="0" style="cursor:pointer">
-        <div class="still">
-          <div class="iw"><img src="/img/team-howard.jpg" alt="Howard 한현수" style="object-position:50% 50%"></div>
-        </div>
-        <figcaption class="p-meta">
-          <div class="p-name">Howard<span class="han">한현수</span></div>
-          <div class="p-role">Co-Founder / 개발</div>
-          <div class="p-cred">M.S. KAIST 기술경영학부<br>Previously BC Card</div>
         </figcaption>
       </figure>
     </div>
@@ -189,43 +166,6 @@
   </div>
 </div>
 
-<div id="modal-danial" class="bio-modal" role="dialog" aria-modal="true" aria-labelledby="modal-danial-name">
-  <div class="bio-modal-inner">
-    <button class="bio-modal-close" aria-label="Close">&times;</button>
-    <div class="bio-modal-layout">
-      <div class="bio-modal-left">
-        <div class="bio-modal-photo">
-          <img src="/img/team-danial.jpg" alt="Danial 안의진" style="object-position:32% 40%">
-        </div>
-        <div class="bio-modal-creds">
-          <div class="bio-cred-section">
-            <div class="bio-cred-label">Education</div>
-            <ul class="bio-cred-items">
-              <li>B.S. 한동대학교 컴퓨터공학</li>
-            </ul>
-          </div>
-          <div class="bio-cred-section">
-            <div class="bio-cred-label">Experience</div>
-            <ul class="bio-cred-items">
-              <li>Prev. 엔지니어 at 오토에버, 현대자동차</li>
-              <li>Prev. 엔지니어 at Human Rights Office, United Nations</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="bio-modal-content">
-        <div class="bio-modal-name" id="modal-danial-name">Danial <span class="han">안의진</span></div>
-        <div class="bio-modal-role">Co-Founder / 개발</div>
-        <blockquote class="bio-modal-quote kr">"복잡한 기술일수록, 사용자는 아무것도 느껴서는 안 됩니다."</blockquote>
-        <div class="bio-modal-bio">
-          <p class="kr">현대자동차그룹 오토에버에서 대규모 IT 인프라와 사용자 시스템을 설계하며, 단 한 명의 이탈도 허용하지 않는 경험 설계의 중요성을 몸으로 익혔습니다. 수십만 명의 유저를 상대하는 환경에서, 기능보다 편의성이 먼저라는 원칙을 확신으로 가져왔습니다.</p>
-          <p class="kr">Web3 프로덕트가 놓치는 가장 큰 맹점은 언제나 유저입니다. 온보딩의 복잡함, 직관성 없는 인터페이스, 낯선 개념의 과부하. 이 장벽들을 하나씩 제거하는 것이 가장 강력한 성장 전략이라고 믿습니다. 기술의 정교함은 유저가 아무것도 느끼지 못할 때 비로소 완성됩니다.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div id="modal-denis" class="bio-modal" role="dialog" aria-modal="true" aria-labelledby="modal-denis-name">
   <div class="bio-modal-inner">
     <button class="bio-modal-close" aria-label="Close">&times;</button>
@@ -291,45 +231,6 @@
           <p class="kr">글로벌 최대 블록체인 해커톤 ETH San Francisco와 국내 최대 ETH Seoul을 모두 우승한 국내에서 유일한 Web3 기획자이자 엔지니어입니다.</p>
           <p class="kr">LooksRare, RomeDAO, OlympusDAO 등 글로벌 Web3 프로토콜들에서 직접 엔지니어로 재직하며 빌딩 경험이 풍부합니다.</p>
           <p class="kr">단순히 프로토콜을 이해하는 수준을 넘어, 다수의 DeFi 프로덕트를 직접 설계하고 성공적으로 엑싯한 경험을 보유하고 있습니다. 토크노믹스 설계부터 온체인 메커니즘, 유동성 전략까지 DeFi의 구조적 본질을 가장 깊은 레이어에서 다뤄왔습니다.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="modal-howard" class="bio-modal" role="dialog" aria-modal="true" aria-labelledby="modal-howard-name">
-  <div class="bio-modal-inner">
-    <button class="bio-modal-close" aria-label="Close">&times;</button>
-    <div class="bio-modal-layout">
-      <div class="bio-modal-left">
-        <div class="bio-modal-photo">
-          <img src="/img/team-howard.jpg" alt="Howard 한현수" style="object-position:50% 50%">
-        </div>
-        <div class="bio-modal-creds">
-          <div class="bio-cred-section">
-            <div class="bio-cred-label">Education</div>
-            <ul class="bio-cred-items">
-              <li>B.S. 한동대학교 컴퓨터공학</li>
-              <li>M.S. KAIST 기술경영학부</li>
-            </ul>
-          </div>
-          <div class="bio-cred-section">
-            <div class="bio-cred-label">Experience</div>
-            <ul class="bio-cred-items">
-              <li>Co-Founder, Kayen Protocol</li>
-              <li>Prev. IT기획본부, BC카드</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="bio-modal-content">
-        <div class="bio-modal-name" id="modal-howard-name">Howard <span class="han">한현수</span></div>
-        <div class="bio-modal-role">Co-Founder / 개발</div>
-        <blockquote class="bio-modal-quote kr">"금융은 결국 신뢰의 문제입니다. 블록체인도 다르지 않습니다."</blockquote>
-        <div class="bio-modal-bio">
-          <p class="kr">BC카드의 IT기획본부에서 결제 인프라와 금융 시스템 기획을 담당한 파이낸스 엔지니어입니다. 수백만 건의 트랜잭션이 오가는 시스템의 안정성을 직접 책임진 경험은, Web3 금융 컨설팅의 실질적인 토대가 됩니다.</p>
-          <p class="kr">화려한 기술 담론보다 실제로 작동하는 구조를 먼저 고민합니다. 전통 금융이 쌓아온 정산, 리스크, 규제 프레임워크를 블록체인 맥락으로 번역하고, 클라이언트의 비즈니스가 두 세계 모두에서 단단하게 서도록 설계합니다.</p>
-          <p class="kr">규제 환경이 빠르게 변화하는 지금, 컴플라이언스를 제약이 아닌 경쟁 우위로 전환하는 시각을 제공합니다.</p>
         </div>
       </div>
     </div>

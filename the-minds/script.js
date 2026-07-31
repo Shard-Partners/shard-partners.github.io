@@ -107,7 +107,7 @@ function initBioModal(name){
     if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
   });
 }
-['philip','han','danial','denis','paul','howard'].forEach(initBioModal);
+['philip','han','denis','paul'].forEach(initBioModal);
 
 (function(){
   var hint = document.getElementById('scroll-hint');
