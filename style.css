@@ -305,7 +305,7 @@ html.shot-mode .scroll-cue .line::after{top:30%}
 }
 .gps{
   position:relative;z-index:1;margin-top:58px;
-  display:grid;grid-template-columns:repeat(4,1fr);gap:28px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:28px; /* revert to repeat(4,1fr) when Howard's card is restored */
 }
 .person .still{aspect-ratio:16/10}
 .gps .person .still{aspect-ratio:3/4}
