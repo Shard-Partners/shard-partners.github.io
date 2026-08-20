@@ -1,11 +1,15 @@
 (function(){
   /* time-boxed content: elements tagged data-hide-until="YYYY-MM-DD" are
      removed from the page until that date passes, then render normally
-     again with no further action needed. */
+     again with no further action needed. data-hide-after is the inverse,
+     used for temporary stand-ins that should vanish once that date passes. */
   var now = new Date();
+  function onDate(el, attr){ return new Date(el.getAttribute(attr) + 'T00:00:00'); }
   [].slice.call(document.querySelectorAll('[data-hide-until]')).forEach(function(el){
-    var until = new Date(el.getAttribute('data-hide-until') + 'T00:00:00');
-    if (now < until) el.remove();
+    if (now < onDate(el, 'data-hide-until')) el.remove();
+  });
+  [].slice.call(document.querySelectorAll('[data-hide-after]')).forEach(function(el){
+    if (now >= onDate(el, 'data-hide-after')) el.remove();
   });
 
   /* grids that can lose items to the above: keep their column count matched
