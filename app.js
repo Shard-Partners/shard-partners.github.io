@@ -1,4 +1,27 @@
 (function(){
+  /* time-boxed content: elements tagged data-hide-until="YYYY-MM-DD" are
+     removed from the page until that date passes, then render normally
+     again with no further action needed. */
+  var now = new Date();
+  [].slice.call(document.querySelectorAll('[data-hide-until]')).forEach(function(el){
+    var until = new Date(el.getAttribute('data-hide-until') + 'T00:00:00');
+    if (now < until) el.remove();
+  });
+
+  /* grids that can lose items to the above: keep their column count matched
+     to what's actually left so a partial row doesn't look unintentional */
+  [
+    { sel: '.gps',       item: '.person',   max: 4 },
+    { sel: '.port-grid', item: '.port-card', max: 4 }
+  ].forEach(function(g){
+    var container = document.querySelector(g.sel);
+    if (!container) return;
+    var n = container.querySelectorAll(g.item).length;
+    if (n > 0 && n < g.max) container.style.setProperty('--cols', n);
+  });
+})();
+
+(function(){
   var SHOT = new URLSearchParams(location.search).get('shot') === '1';
 
   /* reveals */

@@ -305,10 +305,9 @@ html.shot-mode .scroll-cue .line::after{top:30%}
 }
 .gps{
   position:relative;z-index:1;margin-top:58px;
-  display:grid;grid-template-columns:repeat(3,1fr);gap:28px; /* revert to repeat(4,1fr) when Howard's card is restored */
+  display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:28px;
 }
 .person .still{aspect-ratio:16/10}
-.gps .person .still{aspect-ratio:3/4}
 .person:hover img{filter:grayscale(0) brightness(.92) contrast(1);transform:scale(1.035)}
 .person:hover .still::after{opacity:.25}
 .p-meta{margin-top:24px}
@@ -462,7 +461,7 @@ html.shot-mode .ss-slide{transition:none!important;animation:none!important}
 #portfolio .ghost{top:100px;left:-3vw}
 .port-intro{max-width:540px;margin-top:24px;font-size:15px;font-weight:400;line-height:1.72;color:var(--dim)}
 .port-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
+  display:grid;grid-template-columns:repeat(var(--cols,4),1fr);
   gap:48px 28px;margin-top:80px;
 }
 .port-card{display:flex;flex-direction:column;gap:14px;text-decoration:none;color:inherit;cursor:pointer}
