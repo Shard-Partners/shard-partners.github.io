@@ -301,7 +301,7 @@ html.shot-mode .scroll-cue .line::after{top:30%}
 #team .ghost{top:100px;left:-3vw}
 .leads{
   position:relative;z-index:1;margin-top:52px;
-  display:grid;grid-template-columns:repeat(3,1fr);gap:48px;
+  display:grid;grid-template-columns:repeat(var(--cols,3),1fr);gap:48px;
 }
 .gps{
   position:relative;z-index:1;margin-top:58px;
@@ -761,3 +761,4 @@ body.lang-fading{opacity:0}
 @media (max-width:640px){
   .leads{grid-template-columns:1fr;gap:44px;margin-top:48px}
 }
+
