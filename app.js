@@ -13,15 +13,25 @@
   });
 
   /* grids that can lose items to the above: keep their column count matched
-     to what's actually left so a partial row doesn't look unintentional */
+     to what's actually left so a partial row doesn't look unintentional.
+     Counts only currently-displayed items (offsetParent), since a card can
+     stay in the DOM but be display:none'd by the language toggle (t-kr/
+     t-en/t-zh) rather than removed by data-hide-until/-after. When the
+     natural max would leave a sparse trailing row, prefer 3 columns if
+     that divides evenly instead. */
   [
+    { sel: '.leads',     item: '.person',   max: 4 },
     { sel: '.gps',       item: '.person',   max: 4 },
     { sel: '.port-grid', item: '.port-card', max: 4 }
   ].forEach(function(g){
     var container = document.querySelector(g.sel);
     if (!container) return;
-    var n = container.querySelectorAll(g.item).length;
-    if (n > 0 && n < g.max) container.style.setProperty('--cols', n);
+    var n = [].slice.call(container.querySelectorAll(g.item)).filter(function(el){
+      return el.offsetParent !== null;
+    }).length;
+    if (n === 0) return;
+    var cols = n < g.max ? n : (n % g.max !== 0 && n % 3 === 0 ? 3 : g.max);
+    container.style.setProperty('--cols', cols);
   });
 })();
 
