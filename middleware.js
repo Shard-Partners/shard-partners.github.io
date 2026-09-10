@@ -19,6 +19,10 @@ export const config = {
   matcher: ['/', '/index.html', '/sections/:path*'],
 };
 
+// Temporarily paused — re-enables itself automatically after this date, so
+// the pause can't be forgotten and left on indefinitely.
+const BLOCK_DISABLED_UNTIL = Date.parse('2026-09-24T00:00:00Z');
+
 const BLOCKED = new Set([
   // ---------- Europe · EU-27 ----------
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR',
@@ -43,7 +47,7 @@ const BLOCKED = new Set([
 export default async function middleware(request) {
   const country = request.headers.get('x-vercel-ip-country') || 'XX';
 
-  if (BLOCKED.has(country)) {
+  if (Date.now() >= BLOCK_DISABLED_UNTIL && BLOCKED.has(country)) {
     return new Response(blockPage(country), {
       status: 451,
       headers: {
