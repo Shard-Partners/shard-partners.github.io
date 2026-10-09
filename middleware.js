@@ -21,7 +21,7 @@ export const config = {
 
 // Temporarily paused — re-enables itself automatically after this date, so
 // the pause can't be forgotten and left on indefinitely.
-const BLOCK_DISABLED_UNTIL = Date.parse('2026-09-24T00:00:00Z');
+const BLOCK_DISABLED_UNTIL = Date.parse('2026-10-23T00:00:00Z');
 
 const BLOCKED = new Set([
   // ---------- Europe · EU-27 ----------
